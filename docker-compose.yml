@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  api_back_end:
+    container_name: api_back_end
+    build: .
+    ports:
+      - $PORT:$PORT
+    env_file:
+      - .env
+    depends_on:
+      db_back_end:
+        condition: service_healthy
+    command: bash -c "yarn typeorm:generate && yarn typeorm:run && yarn dev"
+    volumes:
+      - .:/app
+
+  db_back_end:
+    container_name: db_back_end
+    image: postgres:14-alpine
+    ports:
+      - $POSTGRES_PORT:$POSTGRES_PORT
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
