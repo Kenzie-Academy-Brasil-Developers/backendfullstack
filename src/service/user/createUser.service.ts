@@ -1,5 +1,6 @@
 import AppError from "../../error/appError"
 import { ICreateUser } from "../../interface/user.interface"
+import { serializerObjContact } from "../../serializer/contact.serializer"
 import Repository from "../../util/repository.util"
 
 const createUserService = async ( data:ICreateUser ) => {
@@ -13,9 +14,13 @@ const createUserService = async ( data:ICreateUser ) => {
     const createdUser = Repository.user.create( data )
     await Repository.user.save( createdUser )
 
+    const serializer = await serializerObjContact.validate( createdUser, {
+        stripUnknown:true
+    } )
+
     return {
         message:"Usuario criado",
-        user:createdUser
+        user:serializer
     }
 }
 

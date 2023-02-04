@@ -11,7 +11,7 @@ services:
     depends_on:
       db_back_end:
         condition: service_healthy
-    command: bash -c "yarn typeorm:generate && yarn typeorm:run && yarn dev"
+    command: bash -c "yarn typeorm:run && yarn dev"
     volumes:
       - .:/app
 

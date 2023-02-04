@@ -6,6 +6,7 @@ import Repository from "../../util/repository.util"
 import { compareSync } from "bcryptjs"
 import { sign } from "jsonwebtoken"
 import { messageWelcome } from "../../util/date.util"
+import { serializerObjContact } from "../../serializer/contact.serializer"
 
 const initSessionService = async ( data:IInitSession ) => {
     
@@ -24,10 +25,14 @@ const initSessionService = async ( data:IInitSession ) => {
         subject:hasEmail.id
     })
 
+    const serializer = await serializerObjContact.validate( hasEmail, {
+        stripUnknown:true
+    } )
+
     return {
         message: messageWelcome( hasEmail ),
         token,
-        user:hasEmail
+        user:serializer
     }
 }
 

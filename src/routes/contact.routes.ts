@@ -22,11 +22,11 @@ contactRouter.get("",
 contactRouter.patch("/:id",
     validIdParamsMiddleware,
     validTokenMiddleware,
+    validDataMiddleware(schemaUpdateContact),
     updateContactController
 )
 contactRouter.delete("/:id",
     validIdParamsMiddleware,
     validTokenMiddleware,
-    validDataMiddleware(schemaUpdateContact),
     removeContactController
 )
