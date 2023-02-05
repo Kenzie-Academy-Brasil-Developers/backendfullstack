@@ -10,8 +10,11 @@ const listOneUserService = async ( { id }:IToken ) => {
         stripUnknown:true
     } )
 
+    const contacts = await Repository.contact.find({ where:{ user:{ id } }, relations:{ user:true } })
+
     return {
         message:"Meu perfil",
+        amountOfContacts:contacts.length,
         user:serializer
     }
 }
