@@ -1,8 +1,9 @@
 import { IToken } from "../../interface/user.interface"
 import { serializerManyContacts } from "../../serializer/contact.serializer"
+import { paginate } from "../../util/pagination"
 import Repository from "../../util/repository.util"
 
-const listContactsInUserService = async ( { id }:IToken ) => {
+const listContactsInUserService = async ( { id }:IToken, query:object ) => {
 
     const contacts = await Repository.contact.find({
         where:{ user:{ id } },
@@ -15,7 +16,10 @@ const listContactsInUserService = async ( { id }:IToken ) => {
     
     return {
         message:"Todos os contatos",
-        contacts:serializer
+        ...paginate({ 
+            list:serializer!.reverse(), 
+            query 
+        })
     }
 }
 

@@ -4,7 +4,8 @@ import listContactsInUserService from "../../service/contact/listContactsInUser.
 const listContactsInUserController = async ( req:Request, res:Response ) => {
     
     const token = req.token
-    const resData = await listContactsInUserService( token )
+    const query = req.query
+    const resData = await listContactsInUserService( token, query )
     return res.status(200).json(resData)
 }
 
