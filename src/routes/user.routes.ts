@@ -4,6 +4,7 @@ import createUserController from "../controller/user/createUser.controller"
 import listOneUserController from "../controller/user/listOneUser.controller"
 import removeUserController from "../controller/user/removeUser.controller"
 import updateUserController from "../controller/user/updateUser.controller"
+import removeEmptyMiddleware from "../middleware/removeEmpty.middleware"
 import validDataMiddleware from "../middleware/validData.middleware"
 import validTokenMiddleware from "../middleware/validToken.middleware"
 import { schemaInitSession } from "../serializer/session.serializer"
@@ -27,6 +28,7 @@ userRouter.get("",
 )
 userRouter.patch("",
     validTokenMiddleware,
+    removeEmptyMiddleware,
     validDataMiddleware(schemaUpdateUser),
     updateUserController
 )

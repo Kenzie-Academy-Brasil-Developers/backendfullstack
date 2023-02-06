@@ -6,13 +6,13 @@ import Repository from "../../util/repository.util"
 
 const addContactService = async ( data:IAddContact, { id }:IToken ) => {
 
-    const hasContactEmail = await Repository.contact.findOneBy({ email:data.email })
+    const hasContactEmail = await Repository.contact.findOne({ where:{ email:data.email, user:{ id } }, relations:{ user:true } })
 
     if( hasContactEmail ){
         throw new AppError("Já existe um contato com esse email")
     }
 
-    const hasContactTelephone = await Repository.contact.findOneBy({ telephone:data.telephone })
+    const hasContactTelephone = await Repository.contact.findOne({ where:{ telephone:data.telephone, user:{ id } }, relations:{ user:true } })
 
     if( hasContactTelephone ){
         throw new AppError("Já existe um contato com esse telefone")
