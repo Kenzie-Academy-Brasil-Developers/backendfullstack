@@ -23,14 +23,14 @@ contactRouter.get("",
     listContactsInUserController
 )
 contactRouter.patch("/:id",
-    validIdParamsMiddleware,
     validTokenMiddleware,
+    validIdParamsMiddleware,
     removeEmptyMiddleware,
     validDataMiddleware(schemaUpdateContact),
     updateContactController
 )
 contactRouter.delete("/:id",
-    validIdParamsMiddleware,
     validTokenMiddleware,
+    validIdParamsMiddleware,
     removeContactController
 )

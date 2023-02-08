@@ -1,0 +1,740 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.0",
+    "title": "SaveContacts",
+    "description": "Olá, SaveContacts é o lugar aonde poderá armazenar seus contatos, podendo ter uma fonte confiável e segura."
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+
+  "tags": [
+    {
+      "name": "Sessão",
+      "description": "Rotas relacionadas ao login de usuários e geração do token de acesso"
+    },
+    {
+      "name": "Usuarios",
+      "description": "Rotas relacionadas ao usuario"
+    },
+    {
+      "name": "Contatos",
+      "description": "Rotas relacionadas aos contatos do usuario"
+    }
+  ],
+
+  "paths": {
+
+    "/user": {
+      "post": {
+        "description": "Rota que de criação de usuario",
+        "tags": ["Usuarios"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fullName": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "telephone": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "fullName": "João",
+                  "email": "João@gmail.com",
+                  "password": "123",
+                  "telephone":"554100000000"
+                }
+              }
+            }
+          }
+        },
+        
+      "responses": {
+        "403": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "Já existe": {
+                  "value": {
+                    "message": "Usuario já existe"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "Corpo": {
+                  "value": {
+                    "message": [
+                      "Deve conter o nome completo",
+                      "Deve conter um email",
+                      "Deve conter um senha",
+                      "Deve conter um numero no seguinte formato 'PREFIXO DDD 00000000' ex: 554100000000"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "201": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "Criação": {
+                  "value": {
+                    "message": "Usuario criado",
+                    "user":{
+                      "id": "fd3da8ef-7a72-45a4-86d9-980fab958db0",
+                      "fullName": "João",
+                      "email": "João@gmail.com",
+                      "telephone": "554100000000",
+                      "createdAt": "05/02/2023 12:12:19",
+                      "updatedAt": "05/02/2023 12:12:19"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      },
+      "get": {
+        "description": "Rota para listagem do seu propio usuario",
+        "tags": ["Usuarios"],
+        "security": [{"bearerAuth": []}],     
+
+        "responses": {
+          "401": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Não autenticado": {
+                    "value": {
+                      "message": "Usuario deve estar logado para acessar o recurso"
+                    }
+                  },
+                  "Token invalido": {
+                    "value": {
+                      "message": "Token invalido"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Não encontrado": {
+                    "value": {
+                      "message": "Usuario do token não encontrado"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Listar": {
+                    "value": {
+                      "message": "Meu perfil",
+                        "user":{
+                          "id": "fd3da8ef-7a72-45a4-86d9-980fab958db0",
+                          "fullName": "João",
+                          "email": "João@gmail.com",
+                          "telephone": "554100000000",
+                          "createdAt": "05/02/2023 12:12:19",
+                          "updatedAt": "05/02/2023 12:12:19"
+                        }
+                    }
+                  }
+                }
+              }
+            }
+            
+          }
+        }
+      },
+      "patch": {
+        "description": "Rota para atualizar seu propio usuario",
+        "tags": ["Usuarios"],
+        "security": [{"bearerAuth": []}],     
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fullName": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "telephone": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "fullName": "João",
+                  "email": "João@gmail.com",
+                  "password": "123",
+                  "telephone":"554100000000"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Não autenticado": {
+                    "value": {
+                      "message": "Usuario deve estar logado para acessar o recurso"
+                    }
+                  },
+                  "Token invalido": {
+                    "value": {
+                      "message": "Token invalido"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Não encontrado": {
+                    "value": {
+                      "message": "Usuario do token não encontrado"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Email indisponivel": {
+                    "value": {
+                      "message": "Email indisponível"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Atualizado": {
+                    "value": {
+                      "message": "Usuario atualizado",
+                      "user":{
+                        "id": "fd3da8ef-7a72-45a4-86d9-980fab958db0",
+                        "fullName": "João",
+                        "email": "João@gmail.com",
+                        "telephone": "554100000000",
+                        "createdAt": "05/02/2023 12:12:19",
+                        "updatedAt": "05/02/2023 12:12:19"
+                      }
+                    }
+                  }
+                }
+              }
+            }  
+          }
+        }
+      },
+      "delete": {
+        "description": "Rota para remover o propio usuario",
+        "tags": ["Usuarios"],
+        "security": [{"bearerAuth": []}],     
+        "responses": {
+          "401": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Não autenticado": {
+                    "value": {
+                      "message": "Usuario deve estar logado para acessar o recurso"
+                    }
+                  },
+                  "Token invalido": {
+                    "value": {
+                      "message": "Token invalido"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Não encontrado": {
+                    "value": {
+                      "message": "Usuario do token não encontrado"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Removido": {
+                    "value": {
+                      "message": "Usuario removido"
+                    }
+                  }
+                }
+              }
+            }
+            
+          }
+        }
+      }
+    },
+    "/session": {
+      "post": {
+        "description": "Rota de geração do token de autenticação",
+        "tags": ["Sessão"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "email": "João@gmail.com",
+                  "password": "123"
+                }
+              }
+            }
+          }
+        },
+      "responses": {
+        "400": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "Corpo": {
+                  "value": {
+                    "message": [
+                      "Deve conter um email",
+                      "Deve conter uma senha"
+                    ]
+                  }
+                },
+                "Credenciais": {
+                  "value": {
+                    "message": "Email/senha inváida"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "200": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "Criação": {
+                  "value": {
+                    "message": "Boa tarde, João",
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NzU4ODgwNTUsImV4cCI6MTY3NTk3NDQ1NSwic3ViIjoiMDUyNzA0OWMtMTcyZi00YWFjLTljNDEtOWRjYWNlZmI4MWVjIn0.qxXu_2Qhs9iNa95oVDdqZ4Vp2xHWomwRSIxYo1aKIrI",
+                    "user": {
+                      "id": "0527049c-172f-4aac-9c41-9dcacefb81ec",
+                      "fullName": "João",
+                      "email": "João@gmail.com",
+                      "telephone": "554100000000",
+                      "createdAt": "08/02/2023 17:16:18",
+                      "updatedAt": "08/02/2023 17:16:18"
+                    }
+                  }
+                }
+              }
+            }  
+          }
+        }
+      }  
+    }
+  },
+  "/contact": {
+    "post": {
+      "description": "Rota para contatos do usuario",
+      "tags": ["Contatos"],
+      "security": [{"bearerAuth": []}],   
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "fullName": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "telephone": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "fullName": "João 2",
+                "email": "JoãoContato@gmail.com",
+                "telephone":"554100000000"
+              }
+            }
+          }
+        }
+      },
+    "responses": {
+      "400": {
+        "content": {
+          "application/json": {
+            "examples": {
+              "Corpo": {
+                "value": {
+                  "message": [
+                    "Deve conter o nome completo",
+                    "Deve conter um email",
+                    "Deve conter um numero no seguinte formato 'PREFIXO DDD 00000000' ex: 554100000000"
+                  ]
+                }
+              },
+              "Email duplicado": {
+                "value": {
+                  "message": "Já existe um contato com esse email"
+                }
+              },
+              "Telefone duplicado": {
+                "value": {
+                  "message": "Já existe um contato com esse telefone"
+                }
+              }
+            }
+          }
+        }
+      },
+      "201": {
+        "content": {
+          "application/json": {
+            "examples": {
+              "Criação": {
+                "value": {
+                  "message": "Contato adicionado",
+                  "contact": {
+                    "id": "35f10d79-c975-4d22-a88e-41d6fa44c060",
+                    "fullName": "João 4",
+                    "email": "JoãoContato4@gmail.com",
+                    "telephone": "5541100000000",
+                    "createdAt": "08/02/2023 17:54:23",
+                    "updatedAt": "08/02/2023 17:54:23"
+                  }
+                }
+              }
+            }
+          }  
+        }
+      }
+    } 
+  },
+  "get": {
+    "description": "Rota para listar contatos do usuario, permitindo pesquisa por query, se adicionar ?partial=true na query as querys posteriores só uma precisa ser verdadeira",
+    "tags": ["Contatos"],
+    "security": [{"bearerAuth": []}],   
+    "responses": {
+      "401": {
+        "content": {
+          "application/json": {
+            "examples": {
+              "Não autenticado": {
+                "value": {
+                  "message": "Usuario deve estar logado para acessar o recurso"
+                }
+              },
+              "Token invalido": {
+                "value": {
+                  "message": "Token invalido"
+                }
+              }
+            }
+          }
+        }
+      },
+      "404": {
+        "content": {
+          "application/json": {
+            "examples": {
+              "Não encontrado": {
+                "value": {
+                  "message": "Usuario do token não encontrado"
+                }
+              }
+            }
+          }
+        }
+      },
+      "200": {
+        "content": {
+          "application/json": {
+            "examples": {
+              "Criação": {
+                "value": {
+                  "message": "Todos os contatos",
+                  "nextPage": null,
+                  "currentPage": "page=1",
+                  "previousPage": null,
+                  "amountPage": 1,
+                  "howManyFetched": 2,
+                  "result": [
+                    {
+                      "id": "b484dcd5-b320-4822-8742-8e20b6d00e18",
+                      "fullName": "João 2",
+                      "email": "JoãoContato2@gmail.com",
+                      "telephone": "554100010000",
+                      "createdAt": "08/02/2023 17:41:06",
+                      "updatedAt": "08/02/2023 17:41:06"
+                    },
+                    {
+                      "id": "d57a8602-a400-4f8a-803f-4da41fd034ef",
+                      "fullName": "João 2",
+                      "email": "JoãoContato@gmail.com",
+                      "telephone": "554100000000",
+                      "createdAt": "08/02/2023 17:40:52",
+                      "updatedAt": "08/02/2023 17:40:52"
+                    }
+                  ]
+                }
+              }
+            }
+          }  
+        }
+      }
+    } 
+  }
+},
+  "/contact/{contactId}": {
+    "patch": {
+      "description": "Rota para atualizar seu contato",
+      "tags": ["Contatos"],
+      "security": [{"bearerAuth": []}],   
+      "parameters": [
+        {
+          "name": "contactId",
+          "in": "path",
+          "description": "[`UUID`](https://developer.mozilla.org/en-US/docs/Glossary/UUID) do contato a ser atualizado",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "fullName": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "telephone": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "fullName": "JoãoAtualizado",
+                "email": "JoãoAtualizado@gmail.com",
+                "telephone":"554120000000"
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "401": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "Não autenticado": {
+                  "value": {
+                    "message": "Usuario deve estar logado para acessar o recurso"
+                  }
+                },
+                "Token invalido": {
+                  "value": {
+                    "message": "Token invalido"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "Não encontrado Token": {
+                  "value": {
+                    "message": "Usuario do token não encontrado"
+                  }
+                },
+                "Não encontrado Contato": {
+                  "value": {
+                    "message": "Contato não encontrado"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "200": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "Criação": {
+                  "value": {
+                    "message": "Contato atualizado",
+                    "contact": {
+                      "id": "35f10d79-c975-4d22-a88e-41d6fa44c060",
+                      "fullName": "JoãoAtualizado",
+                      "email": "JoãoAtualizado@gmail.com",
+                      "telephone": "554120000000",
+                      "createdAt": "08/02/2023 17:54:23",
+                      "updatedAt": "08/02/2023 18:31:32"
+                    }
+                  }
+                }
+              }
+            }  
+          }
+        }
+      } 
+    },
+    "delete": {
+      "description": "Rota para atualizar seu contato",
+      "tags": ["Contatos"],
+      "security": [{"bearerAuth": []}],   
+      "parameters": [
+        {
+          "name": "contactId",
+          "in": "path",
+          "description": "[`UUID`](https://developer.mozilla.org/en-US/docs/Glossary/UUID) do contato a ser atualizado",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "responses": {
+        "401": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "Não autenticado": {
+                  "value": {
+                    "message": "Usuario deve estar logado para acessar o recurso"
+                  }
+                },
+                "Token invalido": {
+                  "value": {
+                    "message": "Token invalido"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "Não encontrado Token": {
+                  "value": {
+                    "message": "Usuario do token não encontrado"
+                  }
+                },
+                "Não encontrado Contato": {
+                  "value": {
+                    "message": "Contato não encontrado"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "200": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "Criação": {
+                  "value": {
+                    "message": "Contato removido"
+                  }
+                }
+              }
+            }  
+          }
+        }
+      } 
+    }
+  
+}
+}
+}

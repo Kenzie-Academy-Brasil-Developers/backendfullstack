@@ -12,9 +12,14 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
+import swaggerUi from "swagger-ui-express"
+import swaggerDocument from "./documentation/swagger.json"
+
 app.use("/user", userRouter)
 app.use("/contact", contactRouter)
 app.use("/session", sessionRouter)
+
+app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(handleErrorMiddleware)
 
