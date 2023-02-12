@@ -9,6 +9,7 @@ export const schemaCreateUser = yup.object().shape({
     email: yup
         .string()
         .max(150, "Deve conter no máximo 150 caracteres")
+        .email("Email inválido")
         .required("Deve conter um email"),
     password: yup
         .string()
@@ -30,6 +31,7 @@ export const schemaUpdateUser = yup.object().shape({
     email: yup
         .string()
         .max(150, "Deve conter no máximo 150 caracteres")
+        .email("Email inválido")
         .notRequired(),
     password: yup
         .string()

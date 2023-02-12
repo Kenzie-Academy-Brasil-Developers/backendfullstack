@@ -12,6 +12,22 @@ const updateContactService = async ( idContact:string, data:IUpdateContact, { id
         throw new AppError("Contato não encontrado", 404)
     }
 
+    if( data?.email ){
+        const contactEmail = await Repository.contact.findOne({where:{ email:data.email }, relations:{ user:true }})
+
+        if( contactEmail && contactEmail.user.id === id && contactEmail.id !== idContact ){
+            throw new AppError("Email já cadastrado")
+        }
+    }
+
+    if( data?.telephone ){
+        const contactTelephone = await Repository.contact.findOne({where:{ telephone:data.telephone }, relations:{ user:true }})
+
+        if( contactTelephone && contactTelephone.user.id === id && contactTelephone.id !== idContact ){
+            throw new AppError("Telefone já cadastrado")
+        }
+    }
+
     await Repository.contact.update( idContact, data )
 
     const contact = await Repository.contact.findOneBy({ id:idContact })

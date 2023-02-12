@@ -5,9 +5,9 @@ import Users from "./users.entity"
 export default class Contact {
     @PrimaryGeneratedColumn("uuid")
         id:string
-    @Column({ length:100 })
+    @Column()
         fullName:string
-    @Column({ length:150 })
+    @Column()
         email: string
     @Column()
         telephone: string

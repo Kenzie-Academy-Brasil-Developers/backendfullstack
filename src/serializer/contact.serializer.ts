@@ -9,6 +9,7 @@ export const schemaCreateContact = yup.object().shape({
     email: yup
         .string()
         .max(150, "Deve conter no máximo 150 caracteres")
+        .email("Email inválido")
         .required("Deve conter um email"),
     telephone: yup
         .string()
@@ -25,6 +26,7 @@ export const schemaUpdateContact = yup.object().shape({
     email: yup
         .string()
         .max(150, "Deve conter no máximo 150 caracteres")
+        .email("Email inválido")
         .notRequired(),
     telephone: yup
         .string()

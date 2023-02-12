@@ -5,10 +5,12 @@ import Repository from "../../util/repository.util"
 
 const updateUserService = async ( data:IUpdateUser, { id }:IToken ) => {
 
-    const hasEmailOtherUser = await Repository.user.findOneBy({ email:data.email })
+    if( data?.email ){
+        const hasEmailOtherUser = await Repository.user.findOneBy({ email:data.email })
 
-    if( hasEmailOtherUser && hasEmailOtherUser.id != id ){
-        throw new AppError("Email indisponível")
+        if( hasEmailOtherUser && hasEmailOtherUser.id != id ){
+            throw new AppError("Email indisponível")
+        }
     }
 
     await Repository.user.update( id, data )

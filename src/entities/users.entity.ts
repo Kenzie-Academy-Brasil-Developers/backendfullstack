@@ -6,12 +6,12 @@ import Contact from "./contact.entity"
 export default class Users {
     @PrimaryGeneratedColumn("uuid")
         id:string
-    @Column({ length:100 })
+    @Column()
         fullName:string
-    @Column({ length:150, unique:true })
+    @Column({ unique:true })
     @Exclude()
         email: string
-    @Column({ length:150 })
+    @Column()
     @Exclude()
         password: string
     @Column()
