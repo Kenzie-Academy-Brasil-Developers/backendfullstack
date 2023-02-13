@@ -16,16 +16,21 @@ Install dependencies
 
 Enter data from environment variables
 
-Generate the migrations, in docker-compose.yml alter command "yarn typeorm:generate && yarn typeorm:run && yarn dev", in generate migrations
+Generate the migrations
 
 ## Docker initialization second time onwards
 
 ### `docker-compose up`
 
-initial server in docker-compose.yml alter command "yarn typeorm:run && yarn dev", in start server 
+initial server
 
 ## Tests Jest ( user and contacts ) 44 tests
 
 ### `yarn test`
 
 Run all tests
+
+## Documentation
+
+### `/documentation`
+

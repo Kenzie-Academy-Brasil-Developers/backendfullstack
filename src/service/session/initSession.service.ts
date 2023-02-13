@@ -29,6 +29,7 @@ const initSessionService = async ( data:IInitSession ) => {
         stripUnknown:true
     } )
 
+    
     return {
         message: messageWelcome( hasEmail ),
         token,
